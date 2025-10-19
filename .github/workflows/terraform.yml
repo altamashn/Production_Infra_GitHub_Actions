@@ -38,30 +38,26 @@ jobs:
         terraform_version: latest
     
     - name: Terraform Init 
-      working-directory: ./Infrastructure
       run: |
-        terraform init \
+        terraform -chdir=Infrastructure init \
           -backend-config = "resource_group_name=${RESOURCE_GROUP_NAME}" \
           -backend-config="storage_account_name=${STORAGE_ACCOUNT_NAME}" \
           -backend-config="container_name=${CONTAINER_NAME}" \
           -backend-config="key=${KEY}"
     
     - name: Terraform Validate
-      working-directory: ./Infrastructure
-      run: terraform validate
+      run: teterraform -chdir=Infrastructure validate
 
     - name: Terraform Format
-      working-directory: ./Infrastructure
-      run: terraform fmt -check -recursive
+      run: terraform -chdir=Infrastructure fmt -check -recursive
     
     - name: Terraform Plan (Feature Branch)
-      working-directory: ./Infrastructure
-      run: terraform plan -input=false -out=tfplan
+      run: terraform -chdir=Infrastructure plan -out=tfplan
   
   deploy:
     name: 'Deploy Infrastructure To Azure'
     runs-on: ubuntu-latest
-    if: github.refs == 'ref/heads/main'
+    if: github.ref == 'refs/heads/main'
 
     steps:
 
@@ -74,19 +70,16 @@ jobs:
         terraform_version: latest
     
     - name: Terraform init
-      working-directory: ./Infrastructure
       run: |
-        terraform init \
+        terraform -chdir=Infrastructure init \
           -backend-config = "resource_group_name=${RESOURCE_GROUP_NAME}" \
           -backend-config="storage_account_name=${STORAGE_ACCOUNT_NAME}" \
           -backend-config="container_name=${CONTAINER_NAME}" \
           -backend-config="key=${KEY}"
     
     - name: Terraform Plan
-      working-directory: ./Infrastructure
-      run: terraform plan -input=false -out=tfplan
+      run: terraform -chdir=Infrastructure plan -out=tfplan
 
     - name: Terraform Apply
-      working-directory: ./Infrastructure
-      run: terraform apply -auto-approve tfplan
+      run: terraform -chdir=Infrastructure apply -auto-approve tfplan
 
