@@ -53,19 +53,6 @@ This setup is designed to ensure **secure, automated, and auditable** provisioni
 
 ---
 
-## 📂 Repository Structure
-```
-├── .github/workflows
-│ └── terraform.yml # GitHub Actions CI/CD pipeline
-├── Infrastructure # Terraform codebase
-│ ├── main.tf
-│ ├── variables.tf
-│ └── backend.tf # Remote backend config
-└── README.md
-```
-
----
-
 ## 🧪 Pipeline Summary
 
 | Event               | Trigger                   | Action                                  |
