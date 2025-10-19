@@ -26,7 +26,7 @@ jobs:
   validate:
     name: 'Terraform Validate and Plan'
     runs-on: ubuntu-latest
-    if: startswith(github.refs, 'refs/heads/feature/')
+    if: startswith(github.ref, 'refs/heads/feature/')
     steps: 
 
     - name: Checkout Code
@@ -61,7 +61,7 @@ jobs:
   deploy:
     name: 'Deploy Infrastructure To Azure'
     runs-on: ubuntu-latest
-    if: github.refs == 'refs/heads/main'
+    if: github.refs == 'ref/heads/main'
 
     steps:
 
